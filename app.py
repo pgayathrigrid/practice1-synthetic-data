@@ -75,7 +75,7 @@ if menu == "Data Generation":
 
             try:
                 response = client.models.generate_content(
-                    model="gemini-1.5-flash",
+                    model="gemini-2.5-flash",
                     contents=prompt
                 )
             except Exception as e:
@@ -127,7 +127,7 @@ if menu == "Data Generation":
             """
 
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.5-flash",
                 contents=prompt
             )
 
@@ -211,7 +211,7 @@ elif menu == "Talk to your data":
             """
 
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.5-flash",
                 contents=prompt
             )
 
