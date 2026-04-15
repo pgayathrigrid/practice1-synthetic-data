@@ -168,7 +168,7 @@ streamlit run app.py
 
 ## 🖥️ Live Demo
 
-[Open the Live App](https://practice1-synthetic-data.streamlit.app/)
+[Open the Live App](https://practice1-and-practice2-synthetic-data-chatbot.streamlit.app/)
 
 ---
 
