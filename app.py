@@ -73,10 +73,14 @@ if menu == "Data Generation":
             - Return ONLY valid JSON (no markdown)
             """
 
-            response = client.models.generate_content(
-                model="gemini-1.5-flash",
-                contents=prompt
-            )
+            try:
+                response = client.models.generate_content(
+                    model="gemini-1.5-flash",
+                    contents=prompt
+                )
+            except Exception as e:
+                st.error("Gemini error: {e}")
+                st.stop() 
 
             try:
                 clean_text = response.text.strip()
