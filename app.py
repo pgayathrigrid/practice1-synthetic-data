@@ -79,7 +79,7 @@ if menu == "Data Generation":
                     contents=prompt
                 )
             except Exception as e:
-                st.error("Gemini error: {e}")
+                st.error(f"Gemini error: {e}")
                 st.stop() 
 
             try:
