@@ -168,7 +168,16 @@ elif menu == "Talk to your data":
             st.session_state.messages = []
 
         for msg in st.session_state.messages:
-            st.chat_message(msg["role"]).write(msg["content"])
+            with st.chat_message(msg["role"]):
+                if msg["role"] == "assistant":
+                    st.code(msg["sql"], language="sql")
+
+                    if msg["result"] is not None and not msg["result"].empty:
+                        st.dataframe(msg["result"])
+                    else:
+                        st.warning("⚠️ No results found")
+                else:
+                    st.write(msg["content"])
 
         user_input = st.chat_input("Ask something about your data...")
 
@@ -255,7 +264,8 @@ elif menu == "Talk to your data":
 
                 st.session_state.messages.append({
                     "role": "assistant",
-                    "content": f"{sql_query}\n\nResult:\n{result.to_string(index=False)}"
+                    "sql": sql_query,
+                    "result": result
                 })
 
             except Exception as e:
