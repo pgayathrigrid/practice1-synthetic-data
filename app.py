@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from google.genai import Client
 import json
-import os
 from pandasql import sqldf
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -10,9 +9,9 @@ from langfuse import Langfuse
 
 # -------------------- LANGFUSE -------------------- #
 langfuse = Langfuse(
-    public_key=os.getenv("LANGFUSE_PUBLIC_KEY"),
-    secret_key=os.getenv("LANGFUSE_SECRET_KEY"),
-    host="https://cloud.langfuse.com"
+    public_key=st.secrets["LANGFUSE_PUBLIC_KEY"],
+    secret_key=st.secrets["LANGFUSE_SECRET_KEY"],
+    host=st.secrets["LANGFUSE_BASE_URL"]
 )
 
 # ✅ SAFE LOG FUNCTION (FIXED)
@@ -28,7 +27,7 @@ def log_to_langfuse(name, input_data, output_data):
 
 
 # ---------------- API KEY ---------------- #
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = st.secrets["GEMINI_API_KEY"]
 
 if not api_key:
     st.error("🚨 GEMINI_API_KEY not set")
