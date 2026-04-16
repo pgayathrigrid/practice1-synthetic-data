@@ -169,14 +169,22 @@ elif menu == "Talk to your data":
 
         for msg in st.session_state.messages:
             with st.chat_message(msg["role"]):
-                if msg["role"] == "assistant":
+
+                # User messages
+                if msg["role"] == "user":
+                    st.write(msg["content"])
+
+                    # New Assitant format
+                elif "sql" in msg:
                     st.code(msg["sql"], language="sql")
 
                     if msg["result"] is not None and not msg["result"].empty:
                         st.dataframe(msg["result"])
                     else:
                         st.warning("⚠️ No results found")
-                else:
+
+                # Old Assistant format
+                elif "content" in msg:
                     st.write(msg["content"])
 
         user_input = st.chat_input("Ask something about your data...")
