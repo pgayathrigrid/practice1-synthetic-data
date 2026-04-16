@@ -100,7 +100,7 @@ if menu == "Data Generation":
                 st.success("✅ Data generated successfully!")
                 st.dataframe(df)
 
-                st.session_state["data"] = df #
+                st.session_state["data"] = df
                 st.session_state["generated_df"] = df
 
                 csv = df.to_csv(index=False).encode("utf-8")
