@@ -14,7 +14,7 @@ langfuse = Langfuse(
     host=st.secrets["LANGFUSE_BASE_URL"]
 )
 
-# ✅ SAFE LOG FUNCTION (FIXED)
+# ---------- LOG FUNCTION (FIXED) ---------
 def log_to_langfuse(name, input_data, output_data):
     try:
         langfuse.log(
@@ -51,8 +51,17 @@ if menu == "Data Generation":
     user_prompt = st.text_area("Additional Instructions (optional)")
     num_rows = st.slider("Number of rows", 1, 100, 5)
 
+    if "uploaded_schema" in st.session_state:
+        st.subheader("Uploaded Schema:")
+        st.code(st.session_state["uploaded_schema"])
+
+    if "generated_df" in st.session_state:
+        st.subheader("Generated Data:")
+        st.dataframe(st.session_state["generated_df"])
+
     if uploaded_file:
         content = uploaded_file.read().decode()
+        st.session_state["uploaded_schema"] = content
 
         st.subheader("Uploaded Schema:")
         st.code(content)
@@ -60,18 +69,18 @@ if menu == "Data Generation":
         if st.button("Generate Data"):
 
             prompt = f"""
-            Generate synthetic data for this SQL schema:
+                Generate synthetic data for this SQL schema:
 
-            {content}
+                {content}
 
-            Instructions:
-            {user_prompt}
+                Instructions:
+                {user_prompt}
 
-            Rules:
-            - Generate {num_rows} rows
-            - Respect column data types
-            - Return ONLY valid JSON (no markdown)
-            """
+                Rules:
+                - Generate {num_rows} rows
+                - Respect column data types
+                - Return ONLY valid JSON (no markdown)
+                """
 
             try:
                 response = client.models.generate_content(
@@ -94,14 +103,15 @@ if menu == "Data Generation":
                 st.success("✅ Data generated successfully!")
                 st.dataframe(df)
 
-                st.session_state["data"] = df
+                st.session_state["data"] = df #
+                st.session_state["generated_df"] = df
 
                 csv = df.to_csv(index=False).encode("utf-8")
                 st.download_button("Download CSV", csv, "synthetic_data.csv", "text/csv")
 
             except:
                 st.error("⚠️ Failed to parse AI response")
-                st.write(response.text)
+                st.write(response.text) 
 
     # -------- MODIFY DATA -------- #
     if "data" in st.session_state:
