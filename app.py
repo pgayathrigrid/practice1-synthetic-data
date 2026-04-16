@@ -154,6 +154,7 @@ if menu == "Data Generation":
                 st.dataframe(new_df)
 
                 st.session_state["data"] = new_df
+                st.session_state["generated_df"] = new_df
 
             except:
                 st.error("Modification failed")
