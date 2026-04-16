@@ -63,9 +63,6 @@ if menu == "Data Generation":
         content = uploaded_file.read().decode()
         st.session_state["uploaded_schema"] = content
 
-        st.subheader("Uploaded Schema:")
-        st.code(content)
-
         if st.button("Generate Data"):
 
             prompt = f"""
@@ -154,6 +151,7 @@ if menu == "Data Generation":
                 st.dataframe(new_df)
 
                 st.session_state["data"] = new_df
+                st.session_state["generated_df"] = new_df
 
             except:
                 st.error("Modification failed")
